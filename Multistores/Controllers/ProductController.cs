@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Multistores.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger, IProductService productService)
+        public ProductController(IProductService productService)
         {
-            _logger = logger;
             _productService = productService;
         }
 
@@ -27,7 +27,7 @@ namespace Multistores.Controllers
            return await _productService.CreateAsync(input);
         }
 
-        [HttpGet(Name = "GetById")]
+        [HttpGet("{id}", Name = "GetById")]
         public async Task<ProductDto?> Get(Guid id)
         {
             return await _productService.GetByIdAsync(id);
