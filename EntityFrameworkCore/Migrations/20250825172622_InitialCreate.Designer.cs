@@ -12,7 +12,7 @@ using Multistores.EntityFrameworkCore.Data;
 namespace Multistores.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(MultistoresDbContext))]
-    [Migration("20250825102115_InitialCreate")]
+    [Migration("20250825172622_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Multistores.EntityFrameworkCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Entities.Product", b =>
+            modelBuilder.Entity("Domain.Entities.Store", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,11 +35,9 @@ namespace Multistores.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IndividualQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("IndividualWeight")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("IdentificationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -48,16 +46,9 @@ namespace Multistores.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Packaging")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PackagingWeight")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Stores");
                 });
 #pragma warning restore 612, 618
         }
