@@ -1,4 +1,11 @@
 
+using Contracts.Interfaces.Services;
+using Domain.Services;
+using Microsoft.EntityFrameworkCore;
+using Multistores.Domain.Interfaces;
+using Multistores.EntityFrameworkCore.Data;
+using Multistores.EntityFrameworkCore.Repositories;
+
 namespace Multistores
 {
     public class Program
@@ -8,6 +15,11 @@ namespace Multistores
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<MultistoresDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
