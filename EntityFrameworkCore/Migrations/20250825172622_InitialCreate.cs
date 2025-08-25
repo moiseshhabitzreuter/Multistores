@@ -12,21 +12,18 @@ namespace Multistores.EntityFrameworkCore.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Stores",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Packaging = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PackagingWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IndividualWeight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IndividualQuantity = table.Column<int>(type: "int", nullable: false),
+                    IdentificationCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Stores", x => x.Id);
                 });
         }
 
@@ -34,7 +31,7 @@ namespace Multistores.EntityFrameworkCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Stores");
         }
     }
 }

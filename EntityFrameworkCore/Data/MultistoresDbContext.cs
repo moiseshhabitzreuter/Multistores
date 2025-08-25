@@ -8,6 +8,6 @@ namespace Multistores.EntityFrameworkCore.Data
         public MultistoresDbContext(DbContextOptions<MultistoresDbContext> options)
             : base(options) { }
 
-        public DbSet<Product> Products => Set<Product>();
+        public DbSet<Store> Stores => Set<Store>();
     }
 }
