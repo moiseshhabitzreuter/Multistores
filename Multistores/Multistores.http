@@ -1,0 +1,6 @@
+@Multistores_HostAddress = http://localhost:5220
+
+GET {{Multistores_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
