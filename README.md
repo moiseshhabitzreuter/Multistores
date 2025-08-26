@@ -2,7 +2,7 @@
 ---------------------
 About
 ---------------------
-The Store API is hosted on Azure App Services and provides a set of endpoints for managing store data. It supports operations to create, read, update, and delete stores, making it easy to integrate into various applications and services.
+The Store API is hosted on Azure App Services and provides a set of endpoints for managing store data. It supports operations to create, read, update, and delete stores.
 
 The API uses a SQL Server database hosted on Azure, ensuring secure, scalable, and reliable storage of all store information. The solution is designed following best practices for .NET backend development, with a clean separation between API controllers, service layer, contracts layer, and data access layer.
 
