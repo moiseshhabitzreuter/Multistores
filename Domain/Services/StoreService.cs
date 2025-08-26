@@ -55,12 +55,12 @@ namespace Domain.Services
             return new StoreDto().FromDto(dto, store.Id);
         }
 
-        public async Task<StoreDto> UpdateStoreAsync(Guid id, CreateUpdateStoreDto dto)
+        public async Task<StoreDto?> UpdateStoreAsync(Guid id, CreateUpdateStoreDto dto)
         {
             var store = await _storeRepository.GetByIdAsync(id);
             if(store is null)
             {
-                return new StoreDto();
+                return null;
             }
 
             store.Name = dto.Name;
@@ -71,9 +71,16 @@ namespace Domain.Services
             return new StoreDto().FromDto(dto, store.Id);
         }
 
-        public async Task DeleteStoreAsync(Guid id)
+        public async Task<bool> DeleteStoreAsync(Guid id)
         {
-            await _storeRepository.DeleteAsync(id);
+            var store = await _storeRepository.GetByIdAsync(id);
+            if (store is null)
+            {
+                return false;
+            }
+
+            await _storeRepository.DeleteAsync(store);
+            return true;
         }
     }
 }
