@@ -1,6 +1,7 @@
 ﻿using Contracts.DTOs;
 using Contracts.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using Multistores.Contracts.DTOs;
 
 namespace Multistores.Controllers
 {
@@ -22,7 +23,7 @@ namespace Multistores.Controllers
         }
 
         [HttpPost(Name = "Create")]
-        public async Task<StoreDto> Create(StoreDto input)
+        public async Task<StoreDto> Create(CreateUpdateStoreDto input)
         {
            return await _storeService.CreateAsync(input);
         }
@@ -31,6 +32,18 @@ namespace Multistores.Controllers
         public async Task<StoreDto?> Get(Guid id)
         {
             return await _storeService.GetByIdAsync(id);
+        }
+
+        [HttpPut("{id:guid}", Name = "Update")]
+        public async Task<StoreDto> Update(Guid id, [FromBody] CreateUpdateStoreDto dto)
+        {
+            return await _storeService.UpdateStoreAsync(id, dto);
+        }
+
+        [HttpDelete("{id:guid}", Name = "Delete")]
+        public async Task Delete(Guid id)
+        {
+            await _storeService.DeleteStoreAsync(id);
         }
     }
 }

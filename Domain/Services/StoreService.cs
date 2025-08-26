@@ -1,6 +1,7 @@
 ﻿using Contracts.DTOs;
 using Contracts.Interfaces.Services;
 using Domain.Entities;
+using Multistores.Contracts.DTOs;
 using Multistores.Domain.Interfaces;
 
 namespace Domain.Services
@@ -39,7 +40,7 @@ namespace Domain.Services
             null;
         }
 
-        public async Task<StoreDto> CreateAsync(StoreDto dto)
+        public async Task<StoreDto> CreateAsync(CreateUpdateStoreDto dto)
         {
             var store = new Store
             {
@@ -49,7 +50,28 @@ namespace Domain.Services
             };
 
             await _storeRepository.AddAsync(store);
-            return dto;
+            return new StoreDto().FromDto(dto, store.Id);
+        }
+
+        public async Task<StoreDto> UpdateStoreAsync(Guid id, CreateUpdateStoreDto dto)
+        {
+            var store = await _storeRepository.GetByIdAsync(id);
+            if(store is null)
+            {
+                return new StoreDto();
+            }
+
+            store.Name = dto.Name;
+            store.Code = dto.Code;
+            store.IdentificationCode = dto.IdentificationCode;
+
+            await _storeRepository.UpdateAsync(store);
+            return new StoreDto().FromDto(dto, store.Id);
+        }
+
+        public async Task DeleteStoreAsync(Guid id)
+        {
+            await _storeRepository.DeleteAsync(id);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Contracts.DTOs;
+using Multistores.Contracts.DTOs;
 
 namespace Contracts.Interfaces.Services
 {
@@ -6,6 +7,8 @@ namespace Contracts.Interfaces.Services
     {
         Task<IEnumerable<StoreDto>> GetAllAsync();
         Task<StoreDto?> GetByIdAsync(Guid id);
-        Task<StoreDto> CreateAsync(StoreDto dto);
+        Task<StoreDto> CreateAsync(CreateUpdateStoreDto dto);
+        Task<StoreDto> UpdateStoreAsync(Guid id, CreateUpdateStoreDto dto);
+        Task DeleteStoreAsync(Guid id);
     }
 }
