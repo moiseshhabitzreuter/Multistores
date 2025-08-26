@@ -15,10 +15,10 @@ namespace Multistores.EntityFrameworkCore.Repositories
         }
 
         public async Task<IEnumerable<Store>> GetAllAsync() =>
-            await _dbContext.Stores.ToListAsync();
+            await _dbContext.Stores.Where(x=> !x.IsDeleted).ToListAsync();
 
         public async Task<Store?> GetByIdAsync(Guid id) =>
-            await _dbContext.Stores.FindAsync(id);
+            await _dbContext.Stores.FirstOrDefaultAsync(x=>x.Id == id && !x.IsDeleted);
 
         public async Task<Store> AddAsync(Store store)
         {

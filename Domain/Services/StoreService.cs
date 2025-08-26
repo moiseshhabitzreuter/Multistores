@@ -23,6 +23,7 @@ namespace Domain.Services
                 Name = p.Name,
                 Code = p.Code,
                 IdentificationCode = p.IdentificationCode,
+                Id = p.Id
             }
             ).ToList();
         }
@@ -35,6 +36,7 @@ namespace Domain.Services
                 Name = store.Name,
                 Code = store.Code,
                 IdentificationCode = store.IdentificationCode,
+                Id = id
             }
             :
             null;
