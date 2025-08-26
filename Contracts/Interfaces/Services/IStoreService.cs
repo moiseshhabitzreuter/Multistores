@@ -9,6 +9,6 @@ namespace Contracts.Interfaces.Services
         Task<StoreDto?> GetByIdAsync(Guid id);
         Task<StoreDto> CreateAsync(CreateUpdateStoreDto dto);
         Task<StoreDto> UpdateStoreAsync(Guid id, CreateUpdateStoreDto dto);
-        Task DeleteStoreAsync(Guid id);
+        Task<bool>DeleteStoreAsync(Guid id);
     }
 }

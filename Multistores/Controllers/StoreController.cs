@@ -1,6 +1,8 @@
 ﻿using Contracts.DTOs;
 using Contracts.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Multistores.Contracts.DTOs;
 
 namespace Multistores.Controllers
@@ -17,33 +19,61 @@ namespace Multistores.Controllers
         }
 
         [HttpGet(Name = "GetStores")]
-        public async Task<IEnumerable<StoreDto>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _storeService.GetAllAsync();
+            var stores = await _storeService.GetAllAsync();
+            return Ok(stores);
         }
 
         [HttpPost(Name = "Create")]
-        public async Task<StoreDto> Create(CreateUpdateStoreDto input)
+        public async Task<IActionResult> Create(CreateUpdateStoreDto input)
         {
-           return await _storeService.CreateAsync(input);
+            try
+            {
+                var createdStore = await _storeService.CreateAsync(input);
+                return Ok(createdStore);
+            }
+            catch (SqlException ex)
+            {
+                return Conflict(new { message = $"A store with code '{input.Code}' already exists." });
+            }
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public async Task<StoreDto?> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            return await _storeService.GetByIdAsync(id);
+            var store = await _storeService.GetByIdAsync(id);
+
+            if (store == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(store);
         }
 
         [HttpPut("{id:guid}", Name = "Update")]
-        public async Task<StoreDto> Update(Guid id, [FromBody] CreateUpdateStoreDto dto)
+        public async Task<IActionResult> Update(Guid id, [FromBody] CreateUpdateStoreDto dto)
         {
-            return await _storeService.UpdateStoreAsync(id, dto);
+            var store = await _storeService.UpdateStoreAsync(id, dto);
+            if (store == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(store);
         }
 
         [HttpDelete("{id:guid}", Name = "Delete")]
-        public async Task Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _storeService.DeleteStoreAsync(id);
+            var isDeletedSuccesfully = await _storeService.DeleteStoreAsync(id);
+            if (!isDeletedSuccesfully)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }
