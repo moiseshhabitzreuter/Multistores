@@ -26,5 +26,22 @@ namespace Multistores.EntityFrameworkCore.Repositories
             await _dbContext.SaveChangesAsync();
             return store;
         }
+
+        public async Task UpdateAsync(Store store)
+        {
+            _dbContext.Stores.Update(store);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var store = await _dbContext.Stores.FirstOrDefaultAsync(s => s.Id == id);
+            if (store != null)
+            {
+                store.IsDeleted = true;
+                _dbContext.Stores.Update(store);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
     }
 }
