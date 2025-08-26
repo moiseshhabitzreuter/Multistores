@@ -33,7 +33,7 @@ namespace Multistores.Controllers
                 var createdStore = await _storeService.CreateAsync(input);
                 return Ok(createdStore);
             }
-            catch (SqlException ex)
+            catch (DbUpdateException)
             {
                 return Conflict(new { message = $"A store with code '{input.Code}' already exists." });
             }
